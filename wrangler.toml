@@ -1,0 +1,42 @@
+name = "waferworx"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+main = ".open-next/worker.js"
+
+[vars]
+JWT_SECRET = "demo-secret-change-in-production"
+ENVIRONMENT = "production"
+
+# D1 Database for relational data
+[[d1_databases]]
+binding = "DB"
+database_name = "waferworx-db"
+database_id = "local"
+
+# R2 Bucket for file storage (PDFs, attachments)
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "waferworx-files"
+
+# KV Namespace for session storage
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "local"
+
+# Build configuration
+[build]
+command = "npm run build"
+
+# Site configuration
+[site]
+bucket = ".open-next/assets"
+
+# Environment-specific settings
+[env.preview]
+name = "waferworx-preview"
+
+[env.production]
+name = "waferworx"
+routes = [
+  { pattern = "waferworx.pages.dev", custom_domain = false }
+]
